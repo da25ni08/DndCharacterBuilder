@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?><?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.dndcharacterbuilder.biblioteca.BibliotecaFragment">
+
+    <!-- Los botones para seleccionar las secciones -->
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/btnSpells"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hechizos" />
+
+        <Button
+            android:id="@+id/btnFeats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Feats" />
+
+        <Button
+            android:id="@+id/btnEquipment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Equipos" />
+
+        <Button
+            android:id="@+id/btnClasses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clases" />
+    </LinearLayout>
+
+    <!-- El ScrollView donde se mostrará la información -->
+    <android.widget.ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+        <!-- Contenedor de los elementos de la API que se irán cargando -->
+        <LinearLayout
+            android:id="@+id/linearLayoutContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+            <!-- Aquí se agregarán dinámicamente los elementos desde el código -->
+        </LinearLayout>
+    </android.widget.ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
