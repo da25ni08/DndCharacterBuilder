@@ -30,17 +30,9 @@ class BibliotecaFragment(private val section: String) : Fragment() {
         scrollView = view.findViewById(R.id.scrollView)
         linearLayoutContent = view.findViewById(R.id.linearLayoutContent)
 
-        // Botones para seleccionar las secciones
-        val btnSpells: Button = view.findViewById(R.id.btnSpells)
-        val btnFeats: Button = view.findViewById(R.id.btnFeats)
-        val btnEquipment: Button = view.findViewById(R.id.btnEquipment)
-        val btnClasses: Button = view.findViewById(R.id.btnClasses)
-
         // Hacer las llamadas API según el botón presionado
-        btnSpells.setOnClickListener { fetchItemsFromApi("spells") }
-        btnFeats.setOnClickListener { fetchItemsFromApi("feats") }
-        btnEquipment.setOnClickListener { fetchItemsFromApi("equipment") }
-        btnClasses.setOnClickListener { fetchItemsFromApi("classes") }
+        fetchItemsFromApi(section)
+
 
         return view
     }

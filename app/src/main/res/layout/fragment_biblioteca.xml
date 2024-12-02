@@ -16,32 +16,7 @@
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <Button
-            android:id="@+id/btnSpells"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hechizos" />
-
-        <Button
-            android:id="@+id/btnFeats"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Feats" />
-
-        <Button
-            android:id="@+id/btnEquipment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Equipos" />
-
-        <Button
-            android:id="@+id/btnClasses"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Clases" />
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <!-- El ScrollView donde se mostrará la información -->
     <android.widget.ScrollView
