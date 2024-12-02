@@ -16,8 +16,12 @@ class AdminSQLiteOpenHelper (
         private const val DATABASE_NAME = "DnDCharacterDB"
         private const val DATABASE_VERSION = 2
 
+
+        //Tab
+
         // Tabla de personajes
         const val TABLE_CHARACTERS = "Characters"
+        const val COLUMN_CHARACTER_USER_ID = "user"
         const val COLUMN_CHARACTER_ID = "id"
         const val COLUMN_CHARACTER_NAME = "name"
         const val COLUMN_CHARACTER_CLASS_NAME = "class"
@@ -85,6 +89,7 @@ class AdminSQLiteOpenHelper (
         val createCharactersTable = """
             CREATE TABLE $TABLE_CHARACTERS (
                 $COLUMN_CHARACTER_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                $COLUMN_CHARACTER_USER_ID TEXT NOT NULL,
                 $COLUMN_CHARACTER_NAME TEXT NOT NULL,
                 $COLUMN_CHARACTER_CLASS_NAME TEXT,
                 $COLUMN_CHARACTER_CLASS_URL TEXT,
@@ -93,7 +98,9 @@ class AdminSQLiteOpenHelper (
                 $COLUMN_CHARACTER_BACKGROUND TEXT,
                 $COLUMN_CHARACTER_BACKGROUND_URL TEXT,
                 $COLUMN_CHARACTER_LEVEL INTEGER,
-                $COLUMN_CHARACTER_HIT_DIE INTEGER
+                $COLUMN_CHARACTER_HIT_DIE INTEGER,
+                PRIMARY KEY ($COLUMN_CHARACTER_ID),
+                FOREIGN KEY ($COLUMN_CHARACTER_USER_ID) REFERENCES $TABLE_USERS($COLUMN_USERS_USER))
             )
         """.trimIndent()
         db.execSQL(createCharactersTable)
