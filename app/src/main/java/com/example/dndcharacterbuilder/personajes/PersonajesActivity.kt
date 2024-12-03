@@ -17,6 +17,7 @@ class PersonajesActivity : AppCompatActivity() {
     private lateinit var characterContainer: LinearLayout
     private lateinit var personajeDAO: PersonajeDAO
     private var usuario: String? = null
+    private lateinit var textHeader: TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,19 +36,30 @@ class PersonajesActivity : AppCompatActivity() {
 
         personajeDAO = PersonajeDAO(this)
 
+        textHeader = findViewById(R.id.headerText)
+
+        textHeader.text = "${textHeader.text} $usuario"
+
         characterContainer = findViewById(R.id.characterContainer)
 
         //insertTestData()
 
         loadCharacters()
 
-        val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener {
+        val floatingCreateCharacter: FloatingActionButton = findViewById(R.id.floatingCreateCharacter)
+        floatingCreateCharacter.setOnClickListener {
             val intent = Intent(this, CrearPersonajeActivity::class.java).apply {
                 putExtra("user", usuario)
             }
             startActivity(intent)
         }
+
+        val floatingBack: FloatingActionButton = findViewById(R.id.floatingBack)
+        floatingBack.setOnClickListener {
+            finish()
+        }
+
+
     }
 
     private fun insertTestData() {
@@ -115,11 +127,9 @@ class PersonajesActivity : AppCompatActivity() {
     }
 
     private fun addCharacterView(personaje: Personaje) {
-        // Inflar el diseño de cada tarjeta
         val inflater = LayoutInflater.from(this)
         val characterView = inflater.inflate(R.layout.personaje_item, characterContainer, false)
 
-        // Asignar los valores del personaje a la vista
         val tvCharacterName = characterView.findViewById<TextView>(R.id.tvCharacterName)
         val tvCharacterClassAndLevel =
             characterView.findViewById<TextView>(R.id.tvCharacterClassAndLevel)
@@ -127,7 +137,6 @@ class PersonajesActivity : AppCompatActivity() {
         tvCharacterName.text = personaje.name
         tvCharacterClassAndLevel.text = "${personaje.charClass} - Nivel ${personaje.level}"
 
-        // Añadir la vista de personaje al contenedor
         characterContainer.addView(characterView)
     }
 }

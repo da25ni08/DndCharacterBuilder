@@ -8,6 +8,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface ApiService {
 
@@ -15,13 +16,16 @@ interface ApiService {
     suspend fun getRaces(): Response<RacesResponse>
 
     @GET("api/spells")
-    suspend fun getSpells(): Response<ItemResponse>
+    suspend fun getSpells(@Query("name") name: String? = null): Response<ItemResponse>
 
     @GET("api/feats")
-    suspend fun getFeats(): Response<ItemResponse>
+    suspend fun getFeats(@Query("name") name: String? = null): Response<ItemResponse>
 
     @GET("api/equipment")
-    suspend fun getEquipment(): Response<ItemResponse>
+    suspend fun getEquipment(@Query("name") name: String? = null): Response<ItemResponse>
+
+    @GET("api/classes")
+    suspend fun getClassesItem(@Query("name") name: String? = null): Response<ItemResponse>
 
     @GET("api/classes")
     suspend fun getClasses(): Response<ClassesResponse>

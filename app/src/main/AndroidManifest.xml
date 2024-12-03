@@ -27,9 +27,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.dndcharacterbuilder.InicioActivity_"
-            android:exported="false" />
-        <activity
             android:name="com.example.dndcharacterbuilder.biblioteca.BibliotecaActivity"
             android:exported="false" />
         <activity
@@ -38,15 +35,6 @@
         <activity
             android:name="com.example.dndcharacterbuilder.personajes.PersonajesActivity"
             android:exported="false" />
-        <activity
-            android:name="com.example.dndcharacterbuilder.MainActivity_"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

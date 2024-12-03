@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -19,6 +20,7 @@ class BibliotecaFragment(private val section: String) : Fragment() {
 
     private lateinit var scrollView: android.widget.ScrollView
     private lateinit var linearLayoutContent: LinearLayout
+    private lateinit var etBusqueda: EditText
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,23 +33,23 @@ class BibliotecaFragment(private val section: String) : Fragment() {
         linearLayoutContent = view.findViewById(R.id.linearLayoutContent)
 
         // Hacer las llamadas API según el botón presionado
-        fetchItemsFromApi(section)
-
+        fetchItemsFromApi(section, null)
+        etBusqueda = view.findViewById(R.id.etBusqueda)
 
         return view
     }
 
-    private fun fetchItemsFromApi(section: String) {
+    private fun fetchItemsFromApi(section: String, busqueda: String?) {
         // Limpiar el contenido previo
         linearLayoutContent.removeAllViews()
 
         CoroutineScope(Dispatchers.IO).launch {
             // Llamada a la API según la sección seleccionada
             val response = when (section) {
-                "spells" -> ApiService.create().getSpells()
-                "feats" -> ApiService.create().getFeats()
-                "equipment" -> ApiService.create().getEquipment()
-                "classes" -> ApiService.create().getClassesItem()
+                "spells" -> ApiService.create().getSpells(busqueda)
+                "feats" -> ApiService.create().getFeats(busqueda)
+                "equipment" -> ApiService.create().getEquipment(busqueda)
+                "classes" -> ApiService.create().getClassesItem(busqueda)
                 else -> throw IllegalArgumentException("Invalid section")
             }
 
@@ -75,6 +77,10 @@ class BibliotecaFragment(private val section: String) : Fragment() {
                 }
             }
         }
+    }
+
+    public fun buscar(v:View){
+        fetchItemsFromApi(section, etBusqueda.text.toString().trim())
     }
 }
 
