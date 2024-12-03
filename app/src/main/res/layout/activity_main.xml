@@ -8,26 +8,119 @@
     tools:context="com.example.dndcharacterbuilder.MainActivity">
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_marginStart="20dp"
         android:gravity="center"
-        android:padding="16dp">
+        android:orientation="vertical"
+        android:padding="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/btnExploreData"
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Explorar Datos"
-            android:layout_marginBottom="16dp" />
+            android:layout_margin="10dp"
+            android:text="Inicio de sesión"
+            android:textSize="34sp" />
 
-        <Button
-            android:id="@+id/btnSavedCharacters"
+        <EditText
+            android:id="@+id/editTextUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_margin="10dp"
+            android:ems="10"
+            android:hint="Username"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/editTextPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_margin="10dp"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword" />
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Personajes Guardados" />
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/dark_blue"
+                android:onClick="logIn"
+                android:text="Log in"
+                android:textColor="#DEDEDE"
+                app:cornerRadius="5dp" />
+
+            <Button
+                android:id="@+id/buttonSingin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/dark_blue"
+                android:onClick="singIn"
+                android:text="Sing in"
+                android:textColor="#DEDEDE"
+                app:cornerRadius="5dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/buttonModPasswd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/dark_blue"
+                android:onClick="modPasswd"
+                android:text="Modificar contraseña"
+                android:textColor="#DEDEDE"
+                app:cornerRadius="5dp" />
+
+            <Button
+                android:id="@+id/buttonBorrarCuenta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/dark_blue"
+                android:onClick="delUser"
+                android:text="Borrar Cuenta"
+                android:textColor="#DEDEDE"
+                app:cornerRadius="5dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

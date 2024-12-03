@@ -24,7 +24,10 @@ interface ApiService {
     suspend fun getEquipment(): Response<ItemResponse>
 
     @GET("api/classes")
-    suspend fun getClasses(): Response<ItemResponse>
+    suspend fun getClasses(): Response<ClassesResponse>
+
+    @GET("api/classes")
+    suspend fun getClassesItem(): Response<ItemResponse>
 
     companion object {
         fun create(): ApiService {

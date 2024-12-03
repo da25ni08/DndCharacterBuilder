@@ -47,7 +47,7 @@ class BibliotecaFragment(private val section: String) : Fragment() {
                 "spells" -> ApiService.create().getSpells()
                 "feats" -> ApiService.create().getFeats()
                 "equipment" -> ApiService.create().getEquipment()
-                "classes" -> ApiService.create().getClasses()
+                "classes" -> ApiService.create().getClassesItem()
                 else -> throw IllegalArgumentException("Invalid section")
             }
 

@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.dndcharacterbuilder.personajes.Personajes">
+    tools:context="com.example.dndcharacterbuilder.personajes.PersonajesActivity">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -14,14 +14,15 @@
         <!-- ScrollView para que los personajes sean desplazables -->
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="16dp">
 
             <!-- Contenedor donde se muestran los personajes -->
             <LinearLayout
                 android:id="@+id/characterContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"/>
+                android:orientation="vertical" />
 
         </ScrollView>
 

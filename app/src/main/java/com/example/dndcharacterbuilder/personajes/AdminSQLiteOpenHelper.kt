@@ -5,19 +5,21 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 
+private const val DATABASE_NAME = "DnDCharacterDB"
+private const val DATABASE_VERSION = 3
+
 class AdminSQLiteOpenHelper (
     context: Context?,
-    name: String?,
-    factory: SQLiteDatabase.CursorFactory?,
-    version: Int
-) : SQLiteOpenHelper(context, name, factory, version) {
+    factory: SQLiteDatabase.CursorFactory?
+) : SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
 
     companion object {
-        private const val DATABASE_NAME = "DnDCharacterDB"
-        private const val DATABASE_VERSION = 2
 
 
-        //Tab
+        //Tabla de usuarios
+        const val TABLE_USERS = "Users"
+        const val COLUMN_USERS_USER = "user"
+        const val COLUMN_USERS_PASSWD = "password"
 
         // Tabla de personajes
         const val TABLE_CHARACTERS = "Characters"
@@ -85,6 +87,15 @@ class AdminSQLiteOpenHelper (
     }
 
     override fun onCreate(db: SQLiteDatabase) {
+        //Crear tabla de usuarios
+        val createUsersTable = """
+            CREATE TABLE $TABLE_USERS (
+                $COLUMN_USERS_USER TEXT NOT NULL PRIMARY KEY,
+                $COLUMN_USERS_PASSWD TEXT NOT NULL
+            )
+            """.trimIndent()
+        db.execSQL(createUsersTable)
+
         // Crear tabla de personajes
         val createCharactersTable = """
             CREATE TABLE $TABLE_CHARACTERS (
@@ -99,8 +110,7 @@ class AdminSQLiteOpenHelper (
                 $COLUMN_CHARACTER_BACKGROUND_URL TEXT,
                 $COLUMN_CHARACTER_LEVEL INTEGER,
                 $COLUMN_CHARACTER_HIT_DIE INTEGER,
-                PRIMARY KEY ($COLUMN_CHARACTER_ID),
-                FOREIGN KEY ($COLUMN_CHARACTER_USER_ID) REFERENCES $TABLE_USERS($COLUMN_USERS_USER))
+                FOREIGN KEY ($COLUMN_CHARACTER_USER_ID) REFERENCES $TABLE_USERS($COLUMN_USERS_USER)
             )
         """.trimIndent()
         db.execSQL(createCharactersTable)
@@ -193,7 +203,7 @@ class AdminSQLiteOpenHelper (
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        if (oldVersion < DATABASE_VERSION) {
+        if (oldVersion < newVersion) {
             db.execSQL("DROP TABLE IF EXISTS $TABLE_PROFICIENCIES")
             db.execSQL("DROP TABLE IF EXISTS $TABLE_FEATS")
             db.execSQL("DROP TABLE IF EXISTS $TABLE_SPELLS")

@@ -7,7 +7,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import androidx.viewpager2.widget.ViewPager2
 import com.example.dndcharacterbuilder2.R
 
-class Biblioteca : AppCompatActivity() {
+class BibliotecaActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
