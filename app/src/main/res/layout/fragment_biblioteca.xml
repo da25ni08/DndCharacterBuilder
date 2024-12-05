@@ -4,71 +4,61 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center|top"
+    android:orientation="vertical"
     tools:context="com.example.dndcharacterbuilder.biblioteca.BibliotecaFragment">
+
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:orientation="horizontal"
-        android:padding="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/etBusqueda"
+            android:layout_width="235dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="text"
+            android:text="Name" />
+
+        <Button
+            android:id="@+id/botonBuscar"
+            android:layout_width="43dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/etBusqueda"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="text"
-                android:text="Name" />
-
-            <Button
-                android:id="@+id/botonBuscar"
-                android:layout_width="43dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="buscar"
-                android:text="Buscar" />
-
-        </LinearLayout>
-
-        <android.widget.ScrollView
-            android:id="@+id/scrollView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:fillViewport="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
-
-            <!-- Contenedor de los elementos de la API que se irán cargando -->
-            <LinearLayout
-                android:id="@+id/linearLayoutContent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-                <!-- Aquí se agregarán dinámicamente los elementos desde el código -->
-
-            </LinearLayout>
-        </android.widget.ScrollView>
+            android:layout_weight="1"
+            android:onClick="buscar"
+            android:text="Buscar" />
 
     </LinearLayout>
 
+    <android.widget.ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+        <!-- Contenedor de los elementos de la API que se irán cargando -->
+        <LinearLayout
+            android:id="@+id/linearLayoutContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+            <!-- Aquí se agregarán dinámicamente los elementos desde el código -->
+
+        </LinearLayout>
+    </android.widget.ScrollView>
 
 
     <!-- El ScrollView donde se mostrará la información -->
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

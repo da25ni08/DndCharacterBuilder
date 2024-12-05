@@ -31,7 +31,7 @@ class ItemDetailDialogFragment : DialogFragment() {
 
         val item = arguments?.getSerializable(ITEM_KEY) as? Item
         val itemName = view.findViewById<TextView>(R.id.item_name)
-        itemName.text = item?.name // Actualiza el nombre del item en el modal
+        itemName.text = item?.name
 
         return view
     }
