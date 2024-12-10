@@ -1,6 +1,5 @@
 package com.example.dndcharacterbuilder
 
-import android.content.ContentValues
 import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
@@ -34,17 +33,17 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        botonLogin = findViewById<Button>(R.id.buttonLogin)
-        botonSingin = findViewById<Button>(R.id.buttonSingin)
+        botonLogin = findViewById(R.id.btnLogin)
+        botonSingin = findViewById(R.id.btnSingin)
 
-        inputPassword = findViewById<EditText>(R.id.editTextPassword)
-        inputUsername = findViewById<EditText>(R.id.editTextUsername)
+        inputPassword = findViewById(R.id.inputPassword)
+        inputUsername = findViewById(R.id.inputUsername)
 
         admin = AdminSQLiteOpenHelper(this,  null)
     }
 
     fun logIn(v: View) {
-        val acciones: (SQLiteDatabase, String) -> String = { db, password ->
+        val acciones: (SQLiteDatabase, String) -> String = { _, password ->
             val resultado: String
             if (password == inputPassword.text.toString()) {
                 val username = inputUsername.text.toString()
@@ -62,61 +61,9 @@ class MainActivity : AppCompatActivity() {
         checkUser(acciones)
     }
 
-    fun singIn(v: View) {
-        val newPassword = inputPassword.text.toString()
-        val db = admin.writableDatabase
-        val fila = db.rawQuery(
-            "SELECT ${AdminSQLiteOpenHelper.COLUMN_USERS_USER} FROM ${AdminSQLiteOpenHelper.TABLE_USERS} WHERE ${AdminSQLiteOpenHelper.COLUMN_USERS_USER} = '${inputUsername.text.toString()}'",
-            null
-        )
-
-        if (fila.moveToFirst()) {
-            Toast.makeText(this, "Error al crear los datos: Usuario ya existe", Toast.LENGTH_SHORT)
-                .show()
-        } else {
-            val passwordSecurity = checkPasswordSecurity(newPassword)
-            if (passwordSecurity != null) {
-                Toast.makeText(this, passwordSecurity, Toast.LENGTH_SHORT).show()
-                return
-            }
-
-            val registro = ContentValues().apply {
-                put(AdminSQLiteOpenHelper.COLUMN_USERS_USER, inputUsername.text.toString())
-                put(AdminSQLiteOpenHelper.COLUMN_USERS_PASSWD, newPassword)
-            }
-
-            db.insert(AdminSQLiteOpenHelper.TABLE_USERS, null, registro)
-            Toast.makeText(this, "Datos creados con éxito", Toast.LENGTH_SHORT).show()
-            limpiarCampos()
-        }
-        fila.close()
-        db.close()
-    }
-
-    private fun limpiarCampos() {
-        inputPassword.setText("")
-        inputUsername.setText("")
-    }
-
-    private fun checkPasswordSecurity(password: String): String? {
-        val patternMayusculas = "[A-Z]+".toRegex()
-        val patternLetras = "\\D+".toRegex()
-        val patternNumeros = "\\d+".toRegex()
-        var result: String? = null
-
-        if (password.length < 8) {
-            result = "Muy corta"
-        }
-        if (!patternNumeros.containsMatchIn(password)) {
-            result = if (result == null) "Faltan números" else "$result | Faltan números"
-        }
-        if (!patternLetras.containsMatchIn(password)) {
-            result = if (result == null) "Faltan letras" else "$result | Faltan letras"
-        }
-        if (!patternMayusculas.containsMatchIn(password)) {
-            result = if (result == null) "Faltan mayúsculas" else "$result | Faltan mayúsculas"
-        }
-        return result
+    fun singUp(v: View) {
+        val intento = Intent(this, SingUp::class.java)
+        startActivity(intento)
     }
 
     private fun checkUser(acciones: (SQLiteDatabase, String) -> String) {

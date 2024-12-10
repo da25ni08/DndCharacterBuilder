@@ -1,6 +1,6 @@
 package com.example.dndcharacterbuilder.api.model
 
-data class Race(
+data class Background(
     val index: String,
     val name: String,
     val url: String
@@ -10,7 +10,7 @@ data class Race(
     }
 }
 
-data class RacesResponse(
+data class BackgroundsResponse(
     val count: Int,
-    val results: List<Race>
+    val results: List<Background>
 )

@@ -10,7 +10,6 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.dndcharacterbuilder.biblioteca.BibliotecaActivity
 import com.example.dndcharacterbuilder.personajes.PersonajesActivity
 import com.example.dndcharacterbuilder2.R
-import com.example.dndcharacterbuilder2.R.id.btnPersonajes
 
 class InicioActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,21 +22,25 @@ class InicioActivity : AppCompatActivity() {
             insets
         }
 
-        var bundle = intent.extras
-        var usuario = bundle?.getString("user")
+        val bundle = intent.extras
+        val usuario = bundle?.getString("user")
 
-        findViewById<Button>(btnPersonajes).setOnClickListener {
+        findViewById<Button>(R.id.btnBiblioteca).setOnClickListener {
             val intent = Intent(this, BibliotecaActivity::class.java).apply {
                 putExtra("user", usuario)
             }
             startActivity(intent)
         }
 
-        findViewById<Button>(R.id.btnSavedCharacters).setOnClickListener {
+        findViewById<Button>(R.id.btnPersonajes).setOnClickListener {
             val intent = Intent(this, PersonajesActivity::class.java).apply {
                 putExtra("user", usuario)
             }
             startActivity(intent)
+        }
+
+        findViewById<Button>(R.id.btnCerrarSesion).setOnClickListener {
+            finish()
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.dndcharacterbuilder.api
 
 
+import com.example.dndcharacterbuilder.api.model.BackgroundsResponse
 import com.example.dndcharacterbuilder.api.model.ClassesResponse
 import com.example.dndcharacterbuilder.api.model.ItemResponse
 import com.example.dndcharacterbuilder.api.model.RacesResponse
@@ -32,6 +33,9 @@ interface ApiService {
 
     @GET("api/classes")
     suspend fun getClassesItem(): Response<ItemResponse>
+
+    @GET("api/backgrounds")
+    suspend fun getBackgrounds(): Response<BackgroundsResponse>
 
     companion object {
         fun create(): ApiService {

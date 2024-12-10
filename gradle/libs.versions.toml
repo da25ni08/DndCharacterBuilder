@@ -24,6 +24,7 @@ converter-gson = "com.squareup.retrofit2:converter-gson:2.9.0"
 gson = "com.google.code.gson:gson:2.8.8"
 coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
 
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

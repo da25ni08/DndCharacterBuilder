@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/light_green"
     tools:context="com.example.dndcharacterbuilder.personajes.PersonajesActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -18,15 +19,15 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/headerText"
+                android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="20dp"
-                android:text="Personajes del usuario: "
+                android:text="User's Characters: "
+                android:textColor="@color/dark_brown"
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </LinearLayout>
-
 
         <ScrollView
             android:layout_width="match_parent"
@@ -35,17 +36,29 @@
             android:layout_marginTop="0dp"
             android:padding="16dp">
 
-            <!-- Contenedor donde se muestran los personajes -->
             <LinearLayout
-                android:id="@+id/characterContainer"
+                android:id="@+id/personajesLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-
             </LinearLayout>
 
         </ScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatinCrearPersonaje"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="100dp"
+            android:contentDescription="Create Character"
+            android:src="@android:drawable/ic_input_add"
+            android:tintMode="multiply"
+            android:backgroundTint="@color/brown"
+            app:tint="@color/dark_brown" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingBack"
@@ -54,24 +67,13 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="100dp"
-            android:contentDescription="Crear personaje"
-            android:src="@android:drawable/ic_menu_revert" />
-
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingCreateCharacter"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:contentDescription="Crear personaje"
-            android:src="@android:drawable/ic_input_add" />
-
+            android:contentDescription="Go Back"
+            android:src="@android:drawable/ic_menu_revert"
+            android:tintMode="multiply"
+            android:backgroundTint="@color/brown"
+            app:tint="@color/black" />
 
     </RelativeLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

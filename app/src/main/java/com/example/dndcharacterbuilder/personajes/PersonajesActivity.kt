@@ -14,10 +14,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class PersonajesActivity : AppCompatActivity() {
 
-    private lateinit var characterContainer: LinearLayout
+    private lateinit var personajesLayout: LinearLayout
     private lateinit var personajeDAO: PersonajeDAO
     private var usuario: String? = null
-    private lateinit var textHeader: TextView
+    private lateinit var header: TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,18 +36,16 @@ class PersonajesActivity : AppCompatActivity() {
 
         personajeDAO = PersonajeDAO(this)
 
-        textHeader = findViewById(R.id.headerText)
+        header = findViewById(R.id.header)
 
-        textHeader.text = "${textHeader.text} $usuario"
+        header.text = "${header.text} $usuario"
 
-        characterContainer = findViewById(R.id.characterContainer)
+        personajesLayout = findViewById(R.id.personajesLayout)
 
-        //insertTestData()
+        cargarPersonajes()
 
-        loadCharacters()
-
-        val floatingCreateCharacter: FloatingActionButton = findViewById(R.id.floatingCreateCharacter)
-        floatingCreateCharacter.setOnClickListener {
+        val floatingCrearPersonaje: FloatingActionButton = findViewById(R.id.floatinCrearPersonaje)
+        floatingCrearPersonaje.setOnClickListener {
             val intent = Intent(this, CrearPersonajeActivity::class.java).apply {
                 putExtra("user", usuario)
             }
@@ -62,73 +60,17 @@ class PersonajesActivity : AppCompatActivity() {
 
     }
 
-    private fun insertTestData() {
-        val personajes = listOf(
-            Personaje(
-                name = "Thorin",
-                charClass = "Guerrero",
-                level = 5,
-                race = "Enano",
-                userId = usuario!!,  // Debes asignar un ID de usuario válido
-                classUrl = "/api/classes/guerrero",  // URL de ejemplo para la clase
-                raceUrl = "/api/races/enano",  // URL de ejemplo para la raza
-                background = "Un enano fuerte y valiente",
-                backgroundUrl = "/api/backgrounds/enano",  // URL de ejemplo para el fondo
-                hitDie = 12  // Valor de ejemplo para el dado de golpe
-            ),
-            Personaje(
-                name = "Arwen",
-                charClass = "Hechicera",
-                level = 4,
-                race = "Elfa",
-                userId = usuario!!,  // Debes asignar un ID de usuario válido
-                classUrl = "/api/classes/hechicera",  // URL de ejemplo para la clase
-                raceUrl = "/api/races/elfa",  // URL de ejemplo para la raza
-                background = "Una hechicera con magia ancestral",
-                backgroundUrl = "/api/backgrounds/elfa",  // URL de ejemplo para el fondo
-                hitDie = 6  // Valor de ejemplo para el dado de golpe
-            ),
-            Personaje(
-                name = "Gimli",
-                charClass = "Guerrero",
-                level = 2,
-                race = "Enano",
-                userId = usuario!!,  // Debes asignar un ID de usuario válido
-                classUrl = "/api/classes/guerrero",  // URL de ejemplo para la clase
-                raceUrl = "/api/races/enano",  // URL de ejemplo para la raza
-                background = "Enano con gran destreza en la batalla",
-                backgroundUrl = "/api/backgrounds/enano",  // URL de ejemplo para el fondo
-                hitDie = 12  // Valor de ejemplo para el dado de golpe
-            ),
-            Personaje(
-                name = "Legolas",
-                charClass = "Arquero",
-                level = 4,
-                race = "Elfo",
-                userId = usuario!!,  // Debes asignar un ID de usuario válido
-                classUrl = "/api/classes/arquero",  // URL de ejemplo para la clase
-                raceUrl = "/api/races/elfo",  // URL de ejemplo para la raza
-                background = "Un elfo experto en el uso del arco",
-                backgroundUrl = "/api/backgrounds/elfo",  // URL de ejemplo para el fondo
-                hitDie = 8  // Valor de ejemplo para el dado de golpe
-            )
-        )
-        for (character in personajes) {
-            personajeDAO.insertCharacter(character)
-        }
-    }
 
-
-    private fun loadCharacters() {
-        val characters = personajeDAO.getCharactersByUser(usuario!!)
+    private fun cargarPersonajes() {
+        val characters = personajeDAO.getPersonajeByUsuario(usuario!!)
         for (character in characters) {
-            addCharacterView(character)
+            addVistaPersonajes(character)
         }
     }
 
-    private fun addCharacterView(personaje: Personaje) {
+    private fun addVistaPersonajes(personaje: Personaje) {
         val inflater = LayoutInflater.from(this)
-        val characterView = inflater.inflate(R.layout.personaje_item, characterContainer, false)
+        val characterView = inflater.inflate(R.layout.personaje_item, personajesLayout, false)
 
         val tvCharacterName = characterView.findViewById<TextView>(R.id.tvCharacterName)
         val tvCharacterClassAndLevel =
@@ -137,6 +79,6 @@ class PersonajesActivity : AppCompatActivity() {
         tvCharacterName.text = personaje.name
         tvCharacterClassAndLevel.text = "${personaje.charClass} - Nivel ${personaje.level}"
 
-        characterContainer.addView(characterView)
+        personajesLayout.addView(characterView)
     }
 }

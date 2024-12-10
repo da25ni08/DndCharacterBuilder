@@ -6,7 +6,7 @@ data class Class(
     val url: String
 ) {
     override fun toString(): String {
-        return name // Solo mostramos el nombre en el Spinner
+        return name
     }
 }
 

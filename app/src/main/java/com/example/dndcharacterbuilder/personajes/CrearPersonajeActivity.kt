@@ -12,33 +12,31 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.dndcharacterbuilder.api.ApiService
+import com.example.dndcharacterbuilder.api.model.Background
 import com.example.dndcharacterbuilder.api.model.Class
+import com.example.dndcharacterbuilder.api.model.Race
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import com.example.dndcharacterbuilder2.R
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class CrearPersonajeActivity : AppCompatActivity() {
 
-    private lateinit var etCharacterName: EditText
-    private lateinit var etStrength: EditText
-    private lateinit var etDexterity: EditText
-    private lateinit var etConstitution: EditText
-    private lateinit var etIntelligence: EditText
-    private lateinit var etWisdom: EditText
-    private lateinit var etCharisma: EditText
+    private lateinit var inputNombrePersonaje: EditText
     private lateinit var etLevel: EditText
     private lateinit var spinnerClass: Spinner
     private lateinit var spinnerRace: Spinner
+    private lateinit var spinnerBackground: Spinner
     private lateinit var btnSaveCharacter: Button
 
     private lateinit var personajeDAO: PersonajeDAO
     private lateinit var dndApiService: ApiService
     private var characterClasses = mutableListOf<Class>()
-    private var races: List<String> = emptyList()
-
+    private var characterRaces = mutableListOf<Race>()
+    private var characterBackgrounds = mutableListOf<Background>()
     private var usuario:String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,88 +51,102 @@ class CrearPersonajeActivity : AppCompatActivity() {
         var bundle = intent.extras
         usuario = bundle?.getString("user")
 
-        // Inicializamos las vistas
-        etCharacterName = findViewById(R.id.etCharacterName)
-        etLevel = findViewById(R.id.etLevel)
-        spinnerClass = findViewById(R.id.spinnerClass)
-        spinnerRace = findViewById(R.id.spinnerRace)
-        btnSaveCharacter = findViewById(R.id.btnSaveCharacter)
+        inputNombrePersonaje = findViewById(R.id.inputNombre)
+        etLevel = findViewById(R.id.inputLevel)
+        spinnerClass = findViewById(R.id.spClasses)
+        spinnerRace = findViewById(R.id.spRaces)
+        spinnerBackground = findViewById(R.id.spBackground)
+        btnSaveCharacter = findViewById(R.id.btnGuardarPersonaje)
 
         personajeDAO = PersonajeDAO(this)
 
-        // Llenar el spinner de razas (solicitamos las razas de la API)
+        initApi()
         fetchClasses()
         fetchRaces()
+        fetchBackgrounds()
 
-        // Manejo del botón para guardar el personaje
         btnSaveCharacter.setOnClickListener {
-            val characterName = etCharacterName.text.toString()
-            val selectedClassName = spinnerClass.selectedItem.toString()
+            val characterName = inputNombrePersonaje.text.toString()
+            if (characterName.isEmpty()){
+                Toast.makeText(this, "Ponle nombre a tu personaje", Toast.LENGTH_SHORT).show()
+            }else {
+                val selectedClassName = spinnerClass.selectedItem.toString()
+                val selectedRaceName = spinnerRace.selectedItem.toString()
+                val selectedBackgroundName = spinnerBackground.selectedItem.toString()
 
-            // Buscar la clase que tiene el mismo nombre
-            val selectedClass = characterClasses.find { it.name == selectedClassName }
+                val selectedClass = characterClasses.find { it.name == selectedClassName }
+                val selectedRace = characterRaces.find { it.name == selectedRaceName }
+                val selectedBackground = characterBackgrounds.find { it.name == selectedBackgroundName }
 
-            val selectedRace = spinnerRace.selectedItem.toString() // Raza seleccionada
-            val selectedLevel = etLevel.text.toString().toIntOrNull() ?: 1 // Nivel seleccionado
+                val selectedLevel = etLevel.text.toString().toIntOrNull() ?: 1
 
-            // Crear el personaje con los datos
-            val newCharacter = selectedClass?.let { it1 ->
-                Personaje(
-                    name = characterName,
-                    charClass = it1.name,
-                    level = selectedLevel,
-                    race = selectedRace,
-                    classUrl = selectedClass.url, // Asignamos la URL de la clase
-                    raceUrl = "", // Puedes agregar una URL de raza si tienes
-                    background = "", // Puedes agregar background si tienes
-                    backgroundUrl = "", // Puedes agregar URL de background si tienes
-                    hitDie = 0, // Asigna un valor adecuado según lo que necesites
-                    userId = usuario!! // Asegúrate de usar el ID adecuado
-                )
+                val newCharacter = selectedClass?.let { it1 ->
+                    Personaje(
+                        name = characterName,
+                        charClass = it1.name,
+                        level = selectedLevel,
+                        race = selectedRace?.name ?: "",
+                        classUrl = it1.url,
+                        raceUrl = selectedRace?.url ?: "",
+                        background = selectedBackground?.name ?: "",
+                        backgroundUrl = selectedBackground?.url ?: "",
+                        hitDie = 0,
+                        userId = usuario!!
+                    )
+                }
+
+
+                if (newCharacter != null) {
+                    personajeDAO.insertPersonaje(newCharacter)
+                    Toast.makeText(this, "Personaje creado", Toast.LENGTH_SHORT).show()
+                }else{
+                    Toast.makeText(this, "Ha ocurrido un error, intentelo otra vez", Toast.LENGTH_SHORT).show()
+                }
+                val intent = Intent(this, PersonajesActivity::class.java).apply {
+                    putExtra("user", usuario)
+                }
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                startActivity(intent)
+                finish()
             }
+        }
 
-            // Guardar el personaje en la base de datos
-            if (newCharacter != null) {
-                personajeDAO.insertCharacter(newCharacter)
-            }else{
-                Toast.makeText(this, "Ha ocurrido un error, intentelo otra vez", Toast.LENGTH_SHORT).show()
-            }
-            val intent = Intent(this, PersonajesActivity::class.java).apply {
-                putExtra("user", usuario)
-            }
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            startActivity(intent)
+        val floatingBack: FloatingActionButton = findViewById(R.id.floatingBack)
+        floatingBack.setOnClickListener {
             finish()
         }
 
     }
 
-
-
-    private fun fetchClasses() {
+    private fun initApi(){
         val retrofit = Retrofit.Builder()
             .baseUrl("https://www.dnd5eapi.co/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         dndApiService = retrofit.create(ApiService::class.java)
+    }
+
+
+
+    private fun fetchClasses() {
+
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = dndApiService.getClasses() // Llamada a la API para obtener las clases
+                val response = dndApiService.getClasses()
                 if (response.isSuccessful) {
-                    val classesList = response.body()?.results // Esta es una lista de objetos 'Class'
+                    val classesList = response.body()?.results
 
                     runOnUiThread {
-                        // Verificamos si las clases se recibieron correctamente
+
                         classesList?.let {
                             characterClasses.clear()
-                            characterClasses.addAll(it) // Añadimos todas las clases
+                            characterClasses.addAll(it)
 
-                            // Extraemos solo los nombres de las clases para el Spinner
+
                             val classNames = it.map { it.name }
 
-                            // Creamos el adaptador para el Spinner con los nombres de las clases
                             val classAdapter = ArrayAdapter(this@CrearPersonajeActivity, android.R.layout.simple_spinner_item, classNames)
                             classAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                             spinnerClass.adapter = classAdapter
@@ -150,18 +162,49 @@ class CrearPersonajeActivity : AppCompatActivity() {
 
 
 
-    // Método para obtener las razas desde la API
+
     private fun fetchRaces() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = dndApiService.getRaces()
                 if (response.isSuccessful) {
-                    val racesList = response.body()?.results?.map { it.name }
+                    val racesList = response.body()?.results
                     runOnUiThread {
-                        races = racesList ?: emptyList()
-                        val raceAdapter = ArrayAdapter(this@CrearPersonajeActivity, android.R.layout.simple_spinner_item, races)
-                        raceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                        spinnerRace.adapter = raceAdapter
+                        racesList?.let {
+                            characterRaces.clear()
+                            characterRaces.addAll(it)
+
+                            val classNames = it.map { it.name }
+
+                            val classAdapter = ArrayAdapter(this@CrearPersonajeActivity, android.R.layout.simple_spinner_item, classNames)
+                            classAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                            spinnerRace.adapter = classAdapter
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun fetchBackgrounds() {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = dndApiService.getBackgrounds()
+                if (response.isSuccessful) {
+                    val racesList = response.body()?.results
+                    runOnUiThread {
+                        racesList?.let {
+                            characterBackgrounds.clear()
+                            characterBackgrounds.addAll(it)
+
+                            val backgroundsNames = it.map { it.name }
+
+                            val classAdapter = ArrayAdapter(this@CrearPersonajeActivity, android.R.layout.simple_spinner_item, backgroundsNames)
+                            classAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                            spinnerBackground.adapter = classAdapter
+                        }
                     }
                 }
             } catch (e: Exception) {

@@ -87,7 +87,7 @@ class AdminSQLiteOpenHelper (
     }
 
     override fun onCreate(db: SQLiteDatabase) {
-        //Crear tabla de usuarios
+
         val createUsersTable = """
             CREATE TABLE $TABLE_USERS (
                 $COLUMN_USERS_USER TEXT NOT NULL PRIMARY KEY,
@@ -96,7 +96,6 @@ class AdminSQLiteOpenHelper (
             """.trimIndent()
         db.execSQL(createUsersTable)
 
-        // Crear tabla de personajes
         val createCharactersTable = """
             CREATE TABLE $TABLE_CHARACTERS (
                 $COLUMN_CHARACTER_ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -115,7 +114,6 @@ class AdminSQLiteOpenHelper (
         """.trimIndent()
         db.execSQL(createCharactersTable)
 
-        // Crear tabla combinada de clases y niveles
         val createClassLevelsTable = """
             CREATE TABLE $TABLE_CLASS_LEVELS (
                 $COLUMN_CLASS_LEVEL_CHARACTER_ID INTEGER,
@@ -139,7 +137,6 @@ class AdminSQLiteOpenHelper (
         """.trimIndent()
         db.execSQL(createClassLevelsTable)
 
-        // Crear tabla de proficiencias
         val createProficienciesTable = """
             CREATE TABLE $TABLE_PROFICIENCIES (
                 $COLUMN_PROFICIENCY_NAME TEXT,
@@ -152,7 +149,6 @@ class AdminSQLiteOpenHelper (
         """.trimIndent()
         db.execSQL(createProficienciesTable)
 
-        // Crear tabla de habilidades (Ability Scores)
         val createAbilityScoresTable = """
             CREATE TABLE $TABLE_ABILITY_SCORES (
                 $COLUMN_ABILITY_NAME TEXT,
@@ -164,7 +160,6 @@ class AdminSQLiteOpenHelper (
         """.trimIndent()
         db.execSQL(createAbilityScoresTable)
 
-        // Crear tabla de equipamiento
         val createEquipmentTable = """
             CREATE TABLE $TABLE_EQUIPMENT (
                 $COLUMN_EQUIPMENT_NAME TEXT,
@@ -177,7 +172,6 @@ class AdminSQLiteOpenHelper (
         """.trimIndent()
         db.execSQL(createEquipmentTable)
 
-        // Crear tabla de hechizos
         val createSpellsTable = """
             CREATE TABLE $TABLE_SPELLS (
                 $COLUMN_SPELL_NAME TEXT,
@@ -189,7 +183,6 @@ class AdminSQLiteOpenHelper (
         """.trimIndent()
         db.execSQL(createSpellsTable)
 
-        // Crear tabla de feats
         val createFeatsTable = """
             CREATE TABLE $TABLE_FEATS (
                 $COLUMN_FEATS_NAME TEXT,

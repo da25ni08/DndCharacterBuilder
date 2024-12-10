@@ -10,10 +10,10 @@ class BibliotecaPagerAdapter(fragmentActivity: FragmentActivity) : FragmentState
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> BibliotecaFragment("spells") // Hechizos
-            1 -> BibliotecaFragment("feats") // Feats
-            2 -> BibliotecaFragment("equipment") // Equipo
-            3 -> BibliotecaFragment("classes") // Clases
+            0 -> BibliotecaFragment("spells")
+            1 -> BibliotecaFragment("feats")
+            2 -> BibliotecaFragment("equipment")
+            3 -> BibliotecaFragment("classes")
             else -> throw IllegalStateException("Unexpected position $position")
         }
     }
