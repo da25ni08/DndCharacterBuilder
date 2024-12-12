@@ -39,6 +39,13 @@ class InicioActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        findViewById<Button>(R.id.buttonConfig).setOnClickListener {
+            val intent = Intent(this, Configuracion::class.java).apply {
+                putExtra("user", usuario)
+            }
+            startActivity(intent)
+        }
+
         findViewById<Button>(R.id.btnCerrarSesion).setOnClickListener {
             finish()
         }
